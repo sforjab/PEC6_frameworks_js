@@ -1,0 +1,7 @@
+<h1>Tienda online de zapatillas deportivas</h1>
+<app-navbar></app-navbar>
+
+<!-- Ocultamos con '*ngIf' los componentes que no coincidan con 'currentComponent'-->
+<app-article-list *ngIf="currentComponent === 'articleList'"></app-article-list>
+<app-article-new-template *ngIf="currentComponent === 'newArticleTemplate'"></app-article-new-template>
+<app-article-new-reactive *ngIf="currentComponent === 'newArticleReactive'"></app-article-new-reactive>

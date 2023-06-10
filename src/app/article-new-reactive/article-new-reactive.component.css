@@ -1,0 +1,20 @@
+form {
+    padding: 0 4rem;
+}
+
+.control {
+    margin: 2rem 0;
+}
+
+.article-onsale {
+    display: flex;
+    align-items: start;
+}
+
+.article-onsale label {
+    margin-right: 1rem;
+}
+
+.resultText {
+    margin-left: 4rem;
+}

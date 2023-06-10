@@ -1,0 +1,80 @@
+<div class="form-group">
+    <!-- 'FormGroup' que agrupa los FormControl del formulario -->
+    <!-- Los FormControl individuales se definen en el componente y se asignan a los elementos del formulario -->
+    <form [formGroup]="articleForm" (ngSubmit)="onSubmit()" class="form">
+      <!-- Campo de nombre del artículo -->
+      <div class="article-name control">
+        <label for="name">Nombre del artículo:</label>
+        <input type="text"
+              id="name"
+              placeholder="Nombre del artículo"
+              name="name"
+              formControlName="name"
+              class="form-control">
+        <div *ngIf="name?.invalid && (name?.dirty || name?.touched)" class="error-message text-danger">
+          <!-- Mostramos mensaje de error de campo obligatorio -->
+          <div *ngIf="name?.errors?.['required']">El nombre del artículo es obligatorio.</div>
+          <!-- Mostramos mensaje de error si el nombre es inválido según el validador personalizado -->
+          <div *ngIf="name?.hasError('forbiddenNameError')">El nombre del artículo no es válido.</div>
+        </div>
+      </div>
+  
+      <!-- Campo de precio -->
+      <div class="article-price control">
+        <label for="price">Precio:</label>
+        <input type="number"
+              id="price"
+              placeholder="Precio"
+              name="price"
+              formControlName="price"
+              class="form-control">
+        <div *ngIf="price?.invalid && (price?.dirty || price?.touched)" class="error-message text-danger">
+            <!-- Mostramos mensaje de error de campo obligatorio -->
+          <div *ngIf="price?.errors?.['required']">El precio es obligatorio.</div>
+          <!-- Mostramos mensaje de error si el precio es menor a 0.1 según el validador 'min' -->
+          <div *ngIf="price?.errors?.['min']">El precio debe ser mayor o igual a 0.1.</div>
+        </div>
+      </div>
+  
+      <!-- Campo de URL de la imagen -->
+      <div class="article-image control">
+        <label for="imageUrl">URL de la imagen:</label>
+        <input type="text"
+              id="imageUrl"
+              placeholder="URL de la imagen"
+              name="imageUrl"
+              formControlName="imageUrl"
+              class="form-control">
+        <div *ngIf="imageUrl?.invalid && (imageUrl?.dirty || imageUrl?.touched)" class="error-message text-danger">
+          <!-- Mostramos mensaje de error de campo obligatorio -->
+          <div *ngIf="imageUrl?.errors?.['required']">La URL de la imagen es obligatoria.</div>
+          <!-- Mostramos mensaje de error si la URL de la imagen no cumple el patrón definido en el validador 'pattern' -->
+          <div *ngIf="imageUrl?.errors?.['pattern']">La URL de la imagen no es válida.</div>
+        </div>
+      </div>
+  
+      <!-- Campo '¿Está en venta?' -->
+      <div class="article-onsale control">
+        <label for="isOnSale">¿Está en venta?:</label>
+        <input type="checkbox"
+            id="isOnSale"
+            name="isOnSale"
+            formControlName="isOnSale"
+            class="form-check-input">
+      </div>
+  
+      <!-- Botón de enviar -->
+      <button type="submit" class="btn btn-primary">Crear</button>
+    </form>
+  </div>
+  
+  <!-- Mostramos los datos del artículo enviado si se ha enviado el formulario -->
+  <div *ngIf="submitted && submittedValues" class="resultText">
+    <h4>El artículo "{{ submittedValues.name }}" se ha creado con los siguientes datos:</h4>
+    <ul>
+      <li><strong>Precio: </strong>{{ submittedValues.price }}</li>
+      <li><strong>URL de la imagen: </strong>{{ submittedValues.imageUrl }}</li>
+    <li><strong>¿Está en venta?: </strong>{{ submittedValues.isOnSale }}</li>
+  </ul>
+</div>
+  

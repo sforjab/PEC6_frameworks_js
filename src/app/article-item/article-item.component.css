@@ -1,0 +1,36 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.article-item-container {
+    border: 1px solid black;
+    border-radius: 5px;
+    display: inline-block;
+    padding: 10px;
+    text-align: center;
+    width: 70%;
+}
+
+.onSale {
+    background-color: #10d1df;
+}
+
+.article-item-container img {
+    width: 80%;
+}
+
+.unavalaible {
+    color: #d3d3d3;
+}
+
+.quantity-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quantity-container .quantityInCart {
+    margin: 0 1rem;
+}

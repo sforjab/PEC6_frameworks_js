@@ -1,0 +1,80 @@
+<div class="form-group">
+  <!-- Se define el formulario y se establece la acción de envío al método 'createArticle()' -->
+  <!-- Se utiliza la directiva 'ngForm' para vincular el formulario al contexto del componente -->
+  <form (ngSubmit)="createArticle(articleForm)" #articleForm="ngForm" class="form">
+    <div ngModelGroup="article">
+      <!-- Campo de nombre del artículo -->
+      <div class="article-name control">
+        <label for="name">Nombre del artículo:</label>
+        <input type="text"
+              id="name"
+              placeholder="Nombre del artículo"
+              required
+              name="name"
+              #articleName="ngModel"
+              ngModel
+              class="form-control">
+        <div *ngIf="articleName.invalid && (articleName.dirty || articleName.touched || articleForm.submitted)" class="error-message text-danger">
+          <!-- Mostramos mensaje de error de campo obligatorio -->
+          <div *ngIf="articleName?.errors?.['required']">El nombre del artículo es obligatorio</div>
+        </div>
+      </div>
+      <!-- Campo de precio -->
+      <div class="article-price control">
+        <label for="price">Precio:</label>
+        <input type="number"
+              id="price"
+              placeholder="Precio"
+              required
+              name="price"
+              #articlePrice="ngModel"
+              ngModel
+              class="form-control">
+        <div *ngIf="articlePrice.invalid && (articlePrice.dirty || articlePrice.touched || articleForm.submitted)" class="error-message text-danger">
+          <!-- Mostramos mensaje de error de campo obligatorio -->
+          <div *ngIf="articlePrice?.errors?.['required']">El precio es obligatorio</div>
+        </div>
+      </div>
+      <!-- Campo de URL de la imagen -->
+      <div class="article-image control">
+        <label for="imageUrl">URL de la imagen:</label>
+        <input type="text"
+              id="imageUrl"
+              placeholder="URL de la imagen"
+              name="imageUrl"
+              required
+              pattern="^(https?:\/\/)(www\.)?[A-Za-z0-9]+(\.[A-Za-z]{2,3})\/[^\s]*\.(?:png|jpe?g|gif)$"
+              #articleImageUrl="ngModel"
+              ngModel
+              class="form-control">
+        <div *ngIf="articleImageUrl.invalid && (articleImageUrl.dirty || articleImageUrl.touched || articleForm.submitted)" class="error-message text-danger">
+          <!-- Mostramos mensaje de error de campo obligatorio -->
+          <div *ngIf="articleImageUrl?.errors?.['required']">La URL de la imagen es obligatoria.</div>
+          <!-- Mostramos mensaje de error si la URL de la imagen no cumple el patrón definido en 'pattern' -->
+          <div *ngIf="articleImageUrl?.errors?.['pattern']">La URL de la imagen no es válida</div>
+        </div>
+      </div>
+      <!-- Campo '¿Está en venta?' -->
+      <div class="article-onsale control">
+        <label for="isOnSale">¿Está en venta?:</label>
+        <input type="checkbox"
+            id="isOnSale"
+            name="isOnSale"
+            #articleIsOnSale="ngModel"
+            ngModel
+            class="form-check-input">
+      </div>
+    </div> 
+    <!-- Botón de envío del formulario -->
+    <button type="submit" class="btn btn-primary">Crear</button>
+  </form>
+</div>
+<!-- visualización del artículo creado -->
+<div *ngIf="article?.name" class="resultText">
+  <h4>El artículo "{{ article.name }}" ha creado con los siguientes datos:</h4>
+  <ul>
+    <li><strong>Precio: </strong>{{ article.price }}</li>
+    <li><strong>URL de la imagen: </strong>{{ article.imageUrl }}</li>
+    <li><strong>¿Está en venta?: </strong>{{ article.isOnSale }}</li>
+  </ul>
+</div>

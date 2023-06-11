@@ -1,3 +1,7 @@
+<div class="search-container">
+    <input type="text" [(ngModel)]="searchTerm" placeholder="Buscar artículo" (input)="onSearch()" class="form-control">
+</div>
+
 <div class="article-list-container">
     <!-- Se utiliza la directiva ngFor para iterar sobre cada uno de los artículos en la lista -->
     <app-article-item *ngFor="let article of articles$ | async" [article]="article"></app-article-item>

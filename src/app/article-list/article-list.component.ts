@@ -9,12 +9,18 @@ import { ArticleService } from 'app/services/article-service.service';
   styleUrls: ['./article-list.component.css']
 })
 export class ArticleListComponent implements OnInit{
-  // Añadimos el modificador '!' para indicar que la propiedad será inicializada en algún momento antes de su uso
+   // Añadimos el modificador '!' para indicar que la propiedad será inicializada en algún momento antes de su uso
   articles$!: Observable<Article[]> ;
+
+  searchTerm: string = '';
 
   constructor(private articleService: ArticleService) { }
 
   ngOnInit(): void {
     this.articles$ = this.articleService.getArticles();
+  }
+
+  onSearch(): void {
+    this.articles$ = this.articleService.getArticles(this.searchTerm);
   }
 }

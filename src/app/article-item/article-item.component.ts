@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { Article } from '../models/article';
+import { DefaultImagePipe } from 'app/pipes/default-image.pipe';
 
 // Utilizamos template y estilos en línea. También establecemos un mecanismo de detección de cambios más óptimo (OnPush)
 @Component({
@@ -8,9 +9,11 @@ import { Article } from '../models/article';
   <div class="container">
     <div class="article-item-container"
     [class]="article.isOnSale ? 'onSale' : ''">
-        <img [src]="article.imageUrl" [alt]="article.name" />
+        <img [src]="article.imageUrl | defaultImage" [alt]="article.name" />
         <div class="name">{{ article.name }}</div>
-        <div class="price" [ngClass]="{'unavalaible': !article.isOnSale}">{{ article.price }} €</div>
+        <div class="price" [ngClass]="{'unavalaible': !article.isOnSale}">
+          {{ article.price | number: '1.2-2' | currency: 'EUR': 'symbol' }}
+        </div>
         <div class="quantity-container" *ngIf="article.isOnSale">
             <button (click)="decrement()" [disabled]="article.quantityInCart === 0">-</button>
             <div class="quantityInCart">{{ article.quantityInCart }}</div>
@@ -67,7 +70,8 @@ import { Article } from '../models/article';
   }
   `
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [DefaultImagePipe]
 })
 export class ArticleItemComponent {
    // El componente recibe un objeto Article mediante la directiva @Input()

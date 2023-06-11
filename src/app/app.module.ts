@@ -10,6 +10,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { ArticleNewTemplateComponent } from './article-new-template/article-new-template.component';
 import { ArticleNewReactiveComponent } from './article-new-reactive/article-new-reactive.component';
 import { ArticleService } from './services/article-service.service';
+import { DefaultImagePipe } from './pipes/default-image.pipe';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ArticleService } from './services/article-service.service';
     ArticleListComponent,
     NavbarComponent,
     ArticleNewTemplateComponent,
-    ArticleNewReactiveComponent
+    ArticleNewReactiveComponent,
+    DefaultImagePipe
   ],
   imports: [
     BrowserModule,

@@ -2,10 +2,12 @@
     <!-- Utilizamos una condición lógica para añadir la clase 'onSale' a los productos que están en venta (se aplicará un color de fondo) -->
     <div class="article-item-container"
     [class]="article.isOnSale ? 'onSale' : ''">
-        <img [src]="article.imageUrl" [alt]="article.name" />
+    <img [src]="article.imageUrl | defaultImage" [alt]="article.name" />
         <div class="name">{{ article.name }}</div>
         <!-- Empleamos la directiva de atributo ngClass, para añadir la clase 'unavalaible' a los artículos que no están en venta (el precio tendrá color gris)-->
-        <div class="price" [ngClass]="{'unavalaible': !article.isOnSale}">{{ article.price }} €</div>
+        <div class="price" [ngClass]="{'unavalaible': !article.isOnSale}">
+            {{ article.price | number: '1.2-2' | currency: 'EUR': 'symbol' }}
+        </div>
         <!-- Se utiliza la directiva estructura *ngIf para ocultar la botonera y el número de artículos si el artículo no está en venta-->
         <div class="quantity-container" *ngIf="article.isOnSale">
             <!-- Deshabilitamos el botón de decremento si la cantidad del artículo es 0 -->

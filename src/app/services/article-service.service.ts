@@ -13,8 +13,7 @@ export class ArticleService {
 
   // Añadimos un parámetro opcional a 'getArticles' para realizar la búsqueda del término indicado
   getArticles(searchTerm?: string): Observable<Article[]> {
-    /* return this.http.get<Article[]>(this.apiUrl); */
-    let url = '/api/articles';
+    let url = this.apiUrl;
 
     if (searchTerm) {
       url += `?q=${searchTerm}`;

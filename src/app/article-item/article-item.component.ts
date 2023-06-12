@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { Article } from '../models/article';
 import { DefaultImagePipe } from 'app/pipes/default-image.pipe';
+import { ArticleService } from 'app/services/article-service.service';
 
 // Utilizamos template y estilos en línea. También establecemos un mecanismo de detección de cambios más óptimo (OnPush)
 @Component({
@@ -74,37 +75,51 @@ import { DefaultImagePipe } from 'app/pipes/default-image.pipe';
   providers: [DefaultImagePipe]
 })
 export class ArticleItemComponent {
-   // El componente recibe un objeto Article mediante la directiva @Input()
-  @Input() article: Article;
-  // El componente emite un evento cada vez que se actualiza la cantidad de artículos en el carrito mediante la directiva @Output()
-  @Output() articleQuantityChange = new EventEmitter<{ article: Article, quantity: number }> ();
+  // El componente recibe un objeto Article mediante la directiva @Input()
+ @Input() article: Article;
+ // El componente emite un evento cada vez que se actualiza la cantidad de artículos en el carrito mediante la directiva @Output()
+ @Output() articleQuantityChange = new EventEmitter<{ article: Article, quantity: number }> ();
 
-  constructor() {
-    // Por defecto inicializamos el artículo con valores de ejemplo
-    this.article = {
-      id: 1,
-      name: 'Nike Court Vision Low',
-      imageUrl: 'https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/818bb456-4fb5-49c9-bc6c-51d7f4d0f371/court-vision-low-zapatillas-1xL2Lc.png',
-      price: 45,
-      isOnSale: false,
-      quantityInCart: 0
-    };
-  }
+ constructor(private articleService: ArticleService) {
+   // Por defecto inicializamos el artículo con valores de ejemplo
+   this.article = {
+     id: 1,
+     name: 'Nike Court Vision Low',
+     imageUrl: 'https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/818bb456-4fb5-49c9-bc6c-51d7f4d0f371/court-vision-low-zapatillas-1xL2Lc.png',
+     price: 45,
+     isOnSale: false,
+     quantityInCart: 0
+   };
+ }
 
-  // Método que se ejecuta al pulsar el botón '-' para decrementar la cantidad de artículos en el carrito
-  decrement(): void {
-    if (this.article.quantityInCart > 0) {
-      // Se actualiza la cantidad de artículos en el carrito y se emite el evento articleQuantityChange
-      this.article.quantityInCart--;
-      this.articleQuantityChange.emit({ article: this.article, quantity: this.article.quantityInCart });
-    }
-  }
-
-  // Método que se ejecuta al pulsar el botón '+' para incrementar la cantidad de artículos en el carrito
-  increment(): void {
+ // Método que se ejecuta al pulsar el botón '-' para decrementar la cantidad de artículos en el carrito
+ decrement(): void {
+   if (this.article.quantityInCart > 0) {
     // Se actualiza la cantidad de artículos en el carrito y se emite el evento articleQuantityChange
-    this.article.quantityInCart++;
-    this.articleQuantityChange.emit({ article: this.article, quantity: this.article.quantityInCart });
-  }
+    this.article.quantityInCart--;
+    this.articleService.changeQuantity(this.article.id, -1)
+      .subscribe(() => {
+        console.log('Cantidad actualizada en el servidor');
+      }, (error) => {
+        console.error('Error al actualizar la cantidad en el servidor:', error);
+        // Revertimos los cambios locales en caso de error
+        this.article.quantityInCart += 1;
+      });
+   }
+ }
+
+ // Método que se ejecuta al pulsar el botón '+' para incrementar la cantidad de artículos en el carrito
+ increment(): void {
+  // Se actualiza la cantidad de artículos en el carrito y se emite el evento articleQuantityChange
+  this.article.quantityInCart++;
+  this.articleService.changeQuantity(this.article.id, 1)
+    .subscribe(() => {
+      console.log('Cantidad actualizada en el servidor');
+    }, (error) => {
+      console.error('Error al actualizar la cantidad en el servidor:', error);
+      // Revertimos los cambios locales en caso de error
+      this.article.quantityInCart -= 1;
+    });
+ }
 
 }

@@ -29,6 +29,7 @@ export class ArticleNewReactiveComponent {
 
   
   constructor(private fb: FormBuilder, private articleService: ArticleService) {
+    // Creamos el formulario y definimos los campos con sus respectivas validaciones
     this.articleForm = this.fb.group({
       name: ['', [Validators.required, nameArticleValidator]],
       price: [null, [Validators.required, Validators.min(0.1)]],
@@ -37,7 +38,7 @@ export class ArticleNewReactiveComponent {
     });
   }
 
-  // Obtenemos los 'FormControl' de los distintos campos
+  // Obtenemos los 'FormControl' de los distintos campos para facilitar su acceso desde la plantilla
   get name() { return this.articleForm.get('name'); }
   get price() { return this.articleForm.get('price'); }
   get imageUrl() { return this.articleForm.get('imageUrl'); }
@@ -46,15 +47,17 @@ export class ArticleNewReactiveComponent {
   onSubmit(): void {
     if (this.articleForm.valid) {
       const article = this.articleForm.value;
+      // Llamamos al servicio para crear un nuevo artículo a partir del formulario
       this.articleService.create(article).subscribe(
         () => {
-          // Lógica adicional después de crear el artículo, como redireccionar o mostrar un mensaje de éxito.
+          // Se capturan los valores del formulario antes de su envío
           this.submittedValues = { ...this.articleForm.value };
+          // Establecemos la variable 'submitted' a 'true' para indicar que el formulario ha sido enviado y completado correctamente
           this.submitted = true;
           console.log('Creando artículo', this.articleForm.value);
         },
         (error: any) => {
-          // Manejo de errores en caso de fallo en la creación del artículo.
+          console.log('Se ha producido un error al crear el artículo:', error);
         }
       );
     } else {

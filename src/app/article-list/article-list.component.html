@@ -1,8 +1,10 @@
 <div class="search-container">
+    <!-- Input para buscar artículos -->
     <input type="text" [(ngModel)]="searchTerm" placeholder="Buscar artículo" (input)="onSearch()" class="form-control">
 </div>
 
 <div class="article-list-container">
     <!-- Se utiliza la directiva ngFor para iterar sobre cada uno de los artículos en la lista -->
+    <!-- El operador de tubería 'async' se utiliza para suscribirse automáticamente al Observable 'articles$' y desplegar los datos en tiempo real -->
     <app-article-item *ngFor="let article of articles$ | async" [article]="article"></app-article-item>
 </div>
